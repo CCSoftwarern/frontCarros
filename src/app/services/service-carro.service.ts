@@ -44,6 +44,14 @@ saveCarro(carro: Carro): Observable<any> {
   );
 }
 
+editarCarro(carro: Carro, idCarro: number): Observable<any> {
+  const url = `${this.apiURL}/api/carros/${idCarro}/`;
+  const headers = { 'Content-Type': 'application/json' };
+  return this.http.put(url, carro, { headers }).pipe(
+    map(response => response)
+  );
+}
+
 
 
 

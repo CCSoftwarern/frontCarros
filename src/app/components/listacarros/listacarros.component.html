@@ -1,10 +1,11 @@
+
 <div class="container mt-4">
   <h4 class="mb-3 text-primary">
     <i class="bi bi-car-front-fill me-2"></i> Lista de Carros
   </h4>
 
   <button type="button" class="btn btn-primary d-flex align-items-center gap-2 shadow-sm"
-          (click)="open(content)">
+    (click)="open(content) ; isEdicao = false">
     <i class="bi bi-plus-circle"></i>
     Novo Carro
   </button>
@@ -43,12 +44,13 @@
 
         <!-- Botões de ação -->
         <td class="text-center">
-          <button id="deletecarro" name="deletecarro" class="btn btn-outline-danger btn-sm me-1" (click)="onDeleteCarro(carro.id)">
+          <button id="deletecarro" name="deletecarro" class="btn btn-outline-danger btn-sm me-1"
+            (click)="onDeleteCarro(carro.id)">
             <i class="bi bi-trash"></i> Excluir
           </button>
-          <!-- <button class="btn btn-outline-primary btn-sm">
-            <i class="bi bi-pencil"></i> Editar
-          </button> -->
+          <button class="btn btn-outline-warning btn-sm me-1" (click)="openModalEditar(content, carro); isEdicao = true; idCarroEditar = carro.id">
+            Editar
+          </button>
         </td>
       </tr>
       }
@@ -59,7 +61,11 @@
 
 <ng-template #content let-modal>
   <div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title">Adicionar Novo carro</h4>
+    <h4 class="modal-title" id="modal-basic-title">@if (isEdicao) {
+      Editar Carro
+      } @else {
+      Novo Carro
+      }</h4>
     <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
   </div>
   <div class="modal-body">
@@ -76,7 +82,7 @@
           required>
       </div>
 
-       <div class="mb-3">
+      <div class="mb-3">
         <label for="urlimagem">URL Imagem</label>
         <input type="url" id="urlimagem" class="form-control" formControlName="urlimagem" placeholder="urlimagem"
           required>
