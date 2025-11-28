@@ -1,0 +1,98 @@
+<div class="container mt-4">
+  <h4 class="mb-3 text-primary">
+    <i class="bi bi-car-front-fill me-2"></i> Lista de Carros
+  </h4>
+
+  <button type="button" class="btn btn-primary d-flex align-items-center gap-2 shadow-sm"
+          (click)="open(content)">
+    <i class="bi bi-plus-circle"></i>
+    Novo Carro
+  </button>
+
+</div>
+<div class="container mt-4">
+
+  <table class="table table-hover align-middle shadow-sm">
+    <thead class="table-dark">
+
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Imagem</th>
+        <th scope="col">Modelo</th>
+        <th scope="col">Preço</th>
+        <th scope="col">Ações</th>
+
+      </tr>
+    </thead>
+    <tbody>
+      @for (carro of carros; track $index) {
+      <tr>
+        <td>{{ carro.id }}</td>
+
+        <!-- Imagem do carro -->
+        <td>
+          <img [src]="carro.urlimagem" alt="{{ carro.modelo }}" class="img-thumbnail"
+            style="width: 80px; height: 60px; object-fit: cover;" (error)="onImageError($event)" />
+        </td>
+        <td class="fw-semibold">{{ carro.modelo }}</td>
+
+        <!-- Preço formatado -->
+        <td [class.text-success]="carro.preco < 50000" [class.text-danger]="carro.preco >= 50000">
+          R$ {{ carro.preco | number:'1.2-2' }}
+        </td>
+
+        <!-- Botões de ação -->
+        <td class="text-center">
+          <button id="deletecarro" name="deletecarro" class="btn btn-outline-danger btn-sm me-1" (click)="onDeleteCarro(carro.id)">
+            <i class="bi bi-trash"></i> Excluir
+          </button>
+          <!-- <button class="btn btn-outline-primary btn-sm">
+            <i class="bi bi-pencil"></i> Editar
+          </button> -->
+        </td>
+      </tr>
+      }
+    </tbody>
+  </table>
+</div>
+
+
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Adicionar Novo carro</h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="carroForm" (ngSubmit)="onSaveCarro()">
+      <div class="mb-3">
+        <label for="titulo">Modelo</label>
+        <input type="text" id="titulo" class="form-control" formControlName="modelo" placeholder="Modelo Carro"
+          required>
+      </div>
+
+      <div class="mb-3">
+        <label for="preco">Preço</label>
+        <input type="number" id="url_Download" class="form-control" formControlName="preco" placeholder="preço"
+          required>
+      </div>
+
+       <div class="mb-3">
+        <label for="urlimagem">URL Imagem</label>
+        <input type="url" id="urlimagem" class="form-control" formControlName="urlimagem" placeholder="urlimagem"
+          required>
+      </div>
+
+
+      <button type="submit" class="btn btn-primary" [disabled]="!carroForm.valid">@if (isloadingSalvar) {
+        <span class="spinner-border spinner-border-sm me-2" role="status"></span>
+        Salvando...
+        }
+        @else {
+        Salvar
+        }
+      </button>
+
+    </form>
+  </div>
+
+</ng-template>

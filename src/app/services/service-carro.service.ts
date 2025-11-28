@@ -1,0 +1,50 @@
+import { Injectable } from '@angular/core';
+import { map,Observable } from "rxjs";
+import { environment } from '../environments/environment';
+import { Carro } from '../interface/carro';
+import { HttpClient, HttpHeaders } from "@angular/common/http";
+
+@Injectable({
+  providedIn: 'root'
+})
+export class ServiceCarroService {
+  private apiURL = environment.apiUrl;
+
+  constructor(private http: HttpClient) { }
+
+  getCarros(): Observable<Carro[]>{
+    return this.http.get<Carro[]>(this.apiURL+"/api/carros/").pipe(map((response: any) => response));
+}
+
+postCarro(id: string, modelo: string, preco: string): Observable<Carro> {
+  const body = {
+    id,
+    modelo,
+    preco
+  };
+
+  const url = `${this.apiURL}/novoCarro`;
+
+  return this.http.post<Carro>(url, body).pipe(
+    map((response: Carro) => response)
+  );
+}
+
+deleteCarro(id: number): Observable<void> {
+  const url = `${this.apiURL}/api/carros/${id}/`;
+  return this.http.delete<void>(url); // Envie um corpo vazio {}
+}
+
+saveCarro(carro: Carro): Observable<any> {
+  const url = `${this.apiURL}/api/carros/`;
+  const headers = { 'Content-Type': 'application/json' };
+
+  return this.http.post(url, carro, { headers}).pipe(
+    map(response => response)
+  );
+}
+
+
+
+
+}
