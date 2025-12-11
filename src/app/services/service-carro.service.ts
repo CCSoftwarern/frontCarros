@@ -14,7 +14,7 @@ export class ServiceCarroService {
 
   getCarros(): Observable<Carro[]>{
     const body = {};
-    return this.http.post<Carro[]>(this.apiURL+"/listarCarros", body).pipe(map((response: any) => response));
+    return this.http.get<Carro[]>(this.apiURL+"/listarCarros", body).pipe(map((response: any) => response));
 }
 
 postCarro(id: string, modelo: string, preco: string): Observable<Carro> {
