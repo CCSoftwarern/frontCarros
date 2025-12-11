@@ -13,7 +13,8 @@ export class ServiceCarroService {
   constructor(private http: HttpClient) { }
 
   getCarros(): Observable<Carro[]>{
-    return this.http.get<Carro[]>(this.apiURL+"/api/carros/").pipe(map((response: any) => response));
+    const body = {};
+    return this.http.post<Carro[]>(this.apiURL+"/listarCarros", body).pipe(map((response: any) => response));
 }
 
 postCarro(id: string, modelo: string, preco: string): Observable<Carro> {
@@ -23,20 +24,30 @@ postCarro(id: string, modelo: string, preco: string): Observable<Carro> {
     preco
   };
 
-  const url = `${this.apiURL}/novoCarro`;
+  const url = `${this.apiURL}/saveCarro`;
 
   return this.http.post<Carro>(url, body).pipe(
     map((response: Carro) => response)
   );
 }
 
-deleteCarro(id: number): Observable<void> {
-  const url = `${this.apiURL}/api/carros/${id}/`;
-  return this.http.delete<void>(url); // Envie um corpo vazio {}
+// deleteCarro(id: number): Observable<void> {
+
+//   const url = `${this.apiURL}/api/carros/${id}/`;
+//   return this.http.delete<void>(url); // Envie um corpo vazio {}
+// }
+
+
+ deleteCarro(modelo:string): Observable<any> {
+  const url = `${this.apiURL}/deleteCarro`;
+  const body = { modelo };
+  return this.http.post(url, body).pipe(
+    map(response => response)
+  );
 }
 
 saveCarro(carro: Carro): Observable<any> {
-  const url = `${this.apiURL}/api/carros/`;
+  const url = `${this.apiURL}/saveCarro`;
   const headers = { 'Content-Type': 'application/json' };
 
   return this.http.post(url, carro, { headers}).pipe(

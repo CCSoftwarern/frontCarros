@@ -65,8 +65,8 @@ export class ListacarrosComponent implements OnInit {
     window.location.reload();
   }
 
-  onDeleteCarro(id: number): void {
-    this.servico.deleteCarro(id).subscribe({
+  onDeleteCarro(nmModelo: string): void {
+    this.servico.deleteCarro(nmModelo).subscribe({
       next: () => {
          this.toastr.info('Carro excluído', 'Excluido',{ timeOut: 2000, progressBar: true,positionClass: 'toast-bottom-right' } );
         this.onGetCarros()
