@@ -31,13 +31,6 @@ postCarro(id: string, modelo: string, preco: string): Observable<Carro> {
   );
 }
 
-// deleteCarro(id: number): Observable<void> {
-
-//   const url = `${this.apiURL}/api/carros/${id}/`;
-//   return this.http.delete<void>(url); // Envie um corpo vazio {}
-// }
-
-
  deleteCarro(modelo:string): Observable<any> {
   const url = `${this.apiURL}/deleteCarro`;
   const body = { modelo };
@@ -55,12 +48,16 @@ saveCarro(carro: Carro): Observable<any> {
   );
 }
 
-editarCarro(carro: Carro, idCarro: number): Observable<any> {
-  const url = `${this.apiURL}/api/carros/${idCarro}/`;
+
+editarCarro(carro: Carro, idCarro:number): Observable<any> {
+  const url = `${this.apiURL}/updateCarro`;
   const headers = { 'Content-Type': 'application/json' };
-  return this.http.put(url, carro, { headers }).pipe(
+  return this.http.post(url, carro, { headers }).pipe(
     map(response => response)
   );
+
+
+
 }
 
 
