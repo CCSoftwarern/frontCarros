@@ -32,7 +32,7 @@ export class ListacarrosComponent implements OnInit {
   carroForm: FormGroup = new FormGroup({
     modelo: new FormControl('', [Validators.required]),
     preco: new FormControl('', [Validators.required]),
-    urlimagem: new FormControl('', [Validators.required]),
+    urlimagem: new FormControl(''),
   });
 
   private modalService = inject(NgbModal);
